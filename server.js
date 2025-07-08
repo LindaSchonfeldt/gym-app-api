@@ -25,7 +25,7 @@ app.get('/exercises', async (req, res) => {
 
   try {
     if (!process.env.RAPIDAPI_KEY) {
-      return res.status(500).json({ error: 'REACT_APP_API_KEY not configured' })
+      return res.status(500).json({ error: 'RAPIDAPI_KEY not configured' })
     }
 
     const response = await fetch(
@@ -72,7 +72,8 @@ app.get('/exercises/:id', async (req, res) => {
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-          'X-RapidAPI-Host': process.env.RAPIDAPI_HOST || 'exercisedb.p.rapidapi.com'
+          'X-RapidAPI-Host':
+            process.env.RAPIDAPI_HOST || 'exercisedb.p.rapidapi.com'
         }
       }
     )
@@ -80,12 +81,16 @@ app.get('/exercises/:id', async (req, res) => {
     if (!response.ok) {
       // Handle 404 specially for better user experience
       if (response.status === 404) {
-        return res.status(404).json({ error: `Exercise with ID ${exerciseId} not found` })
+        return res
+          .status(404)
+          .json({ error: `Exercise with ID ${exerciseId} not found` })
       }
 
       const errorText = await response.text()
       console.log('Error response body:', errorText)
-      throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`)
+      throw new Error(
+        `HTTP error! status: ${response.status}, body: ${errorText}`
+      )
     }
 
     const exercise = await response.json()

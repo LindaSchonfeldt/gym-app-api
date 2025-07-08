@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express'
 import { RequestHandler } from 'express-serve-static-core'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { Exercise } from './types/models.js' // Note: Add .js extension for ES modules
+import { Exercise } from './types/models.js'
+import mongoose from 'mongoose'
 
 dotenv.config()
 
@@ -121,6 +122,12 @@ app.get('/exercises', (async (_req: Request, res: Response) => {
       .json({ error: 'Failed to fetch exercises', details: err.message })
   }
 }) as RequestHandler)
+
+// Add MongoDB connection
+mongoose
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gym-app')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('MongoDB connection error:', err))
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)

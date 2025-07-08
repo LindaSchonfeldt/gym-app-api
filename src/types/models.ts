@@ -12,4 +12,13 @@ export interface Exercise {
   gifUrl: string
 }
 
-// Add other interfaces as needed
+export interface ExerciseData {
+  bodyPart: string
+  equipment: string
+  gifUrl: string
+  id: string
+  name: string
+  target: string
+  secondaryMuscles?: string[]
+  instructions?: string[]
+}

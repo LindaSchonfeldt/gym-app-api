@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 dotenv.config();
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 8080;
@@ -87,6 +88,11 @@ app.get('/exercises', (async (_req, res) => {
             .json({ error: 'Failed to fetch exercises', details: err.message });
     }
 }));
+// Add MongoDB connection
+mongoose
+    .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gym-app')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.error('MongoDB connection error:', err));
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

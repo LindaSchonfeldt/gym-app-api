@@ -5,7 +5,8 @@
   "scripts": {
     "start": "babel-node server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "seed": "npm run build && node dist/scripts/seedDatabase.js"
   },
   "author": "",
   "license": "ISC",
